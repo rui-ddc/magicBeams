@@ -3,6 +3,10 @@ import java.util.Scanner;
 class Main {
     record Beam(int r, int c, int l, char d) {}
 
+    static String solver() {
+        return "Implement solver";
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
   
@@ -30,8 +34,10 @@ class Main {
                 beams[i] = new Beam(input.nextInt(), input.nextInt(), input.nextInt(), input.next().charAt(0));
             }
 
-            //String output = Solver();
-            //System.out.println(output);
+            String output = solver();
+            System.out.println(output);
         }
+
+
     }
 }
