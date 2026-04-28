@@ -4,6 +4,23 @@ class Main {
     record Beam(int r, int c, int l, char d) {}
 
     static String solver() {
+        /*
+            #1 Check which beams intercept the chosen columns
+                #1.1 If no beams intercept out> "False alarm"
+                #1.2 If beams intercept start creating a directed graph of dependencies
+
+                (example)
+                A can only move if B and C move
+                C can move freely
+                B can only move if D and E move
+                D and E can move freely
+
+                In this example, C, D and E would be graph leaves
+
+                #2.1 If any loop gets formed at any point out> "Disaster"
+`		        #2.2 If there are no loops, then remove and output all leaves in order of lowest index until the graph has no more nodes
+        */
+
         return "Implement solver";
     }
 
@@ -37,7 +54,5 @@ class Main {
             String output = solver();
             System.out.println(output);
         }
-
-
     }
 }
