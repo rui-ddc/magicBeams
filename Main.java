@@ -3,7 +3,7 @@ import java.util.Scanner;
 class Main {
     record Beam(int r, int c, int l, char d) {}
 
-    static String solver() {
+    private static String solve(int R, int C, int N, int L, int B, Beam[] beams) {
         /*
             #1 Check which beams intercept the chosen columns
                 #1.1 If no beams intercept out> "False alarm"
@@ -51,7 +51,7 @@ class Main {
                 beams[i] = new Beam(input.nextInt(), input.nextInt(), input.nextInt(), input.next().charAt(0));
             }
 
-            String output = solver();
+            String output = solve(R, C, N, L, B, beams);
             System.out.println(output);
         }
     }
