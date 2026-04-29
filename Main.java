@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 class Main {
     record Beam(int r, int c, int l, char d) {}
@@ -40,48 +41,69 @@ class Main {
         }
 
         // Check for necessary beams to move
-        Set<Integer> beamsInTheWay = new HashSet<>();
+        Set<Integer> beamsInChosenColumns  = new HashSet<>();
         for (int c = L; c < L + N; c++) {
             for (int r = 0; r < R; r++) {
                 if (occupied[r][c] > -1) {
-                    beamsInTheWay.add(occupied[r][c]);
+                    beamsInChosenColumns .add(occupied[r][c]);
                 }
             }
         }
         // If none return Flase Alarm
-        if (beamsInTheWay.isEmpty()) {
+        if (beamsInChosenColumns.isEmpty()) {
             return "False alarm";
         }
 
         // Ray tracing
-        for (int i : beamsInTheWay) {
-            if (beams[i].d() == 'N') {
-                System.out.printf("beam %d: %c ", i, beams[i].d());
-                for (int r = beams[i].r() - beams[i].l(); r > -1; r--) {
-                    System.out.printf("%4d", occupied[r][beams[i].c()]);
-                }
-                System.out.println();
-            } else if (beams[i].d() == 'S') {
-                System.out.printf("beam %d: %c ", i, beams[i].d());
-                for (int r = beams[i].r() + beams[i].l(); r < R; r++) {
-                    System.out.printf("%4d", occupied[r][beams[i].c()]);
-                }
-                System.out.println();
-            } else if (beams[i].d() == 'E') {
-                System.out.printf("beam %d: %c ", i, beams[i].d());
-                for (int c = beams[i].c() + beams[i].l(); c < C; c++) {
-                    System.out.printf("%4d", occupied[beams[i].r()][c]);
-                }
-                System.out.println();
+        // Em vez de prints vou criar um set
+        LinkedList<Integer>[] adjList = new LinkedList[B];
+        for (int i = 0; i < B; i++) {
+            adjList[i] = new LinkedList<>();
+        }
 
-            } else if (beams[i].d() == 'W') {
-                System.out.printf("beam %d: %c ", i, beams[i].d());
-                for (int c = beams[i].c() - beams[i].l(); c > -1; c--) {
-                    System.out.printf("%4d", occupied[beams[i].r()][c]);
+        for (int i = 0; i < B; i++) {
+        //for (int i : beamsInChosenColumns ) {
+            Set<Integer> beamsBlockingPath  = new HashSet<>();
+            if (beams[i].d() == 'N') {
+                for (int r = beams[i].r() - beams[i].l(); r > -1; r--) {
+                    beamsBlockingPath.add(occupied[r][beams[i].c()]);
                 }
-                System.out.println();
+            } else if (beams[i].d() == 'S') {
+                for (int r = beams[i].r() + beams[i].l(); r < R; r++) {
+                    beamsBlockingPath.add(occupied[r][beams[i].c()]);
+                }
+            } else if (beams[i].d() == 'E') {
+                for (int c = beams[i].c() + beams[i].l(); c < C; c++) {
+                    beamsBlockingPath.add(occupied[beams[i].r()][c]);
+                }
+            } else if (beams[i].d() == 'W') {
+                for (int c = beams[i].c() - beams[i].l(); c > -1; c--) {
+                    beamsBlockingPath.add(occupied[beams[i].r()][c]);
+                }
+            }
+
+            for (int j : beamsBlockingPath) {
+                if (j != -1) {
+                    adjList[i].add(j);
+                }
             }
         }
+
+        for (int w = 0; w < adjList.length; w++) {
+            System.out.print(w + ": ");
+            if (adjList[w] == null || adjList[w].isEmpty()) {
+                System.out.println("(empty)");
+                continue;
+            }
+            for (int v : adjList[w]) {
+                System.out.print(v + " ");
+            }
+            System.out.println();
+        }
+
+        // Ok decidi que vou só criar a lista de adj para todos os nó e simplesmente
+        // Uso apenas aqueles que me interessam já em formato de grafo
+        // Build graph and check for cycles...?
 
         /*
             #1 Check which beams intercept the chosen columns
