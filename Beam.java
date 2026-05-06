@@ -1,1 +1,1 @@
-record Beam(int r, int c, int l, char d) {}
+record Beam(int row, int col, int len, char dir) {}
