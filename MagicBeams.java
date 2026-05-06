@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class MagicBeams {
     int R;
     int C;
@@ -18,7 +21,7 @@ class MagicBeams {
     private int[][] buildRuneGrid() {
         int[][] runeGrid = new int[R][C];
 
-        for(int i = 0; i < beams.length; i++) {
+        for(int i = 0; i < B; i++) {
             Beam b = beams[i];
             int rPos = b.row();
             int cPos = b.col();
@@ -54,15 +57,21 @@ class MagicBeams {
     public String solve() {
         int[][] runeGrid = buildRuneGrid();
 
+        // List beams that intersect the chosen columns
+        List<Integer> beamsToClear = new ArrayList<>();
+        boolean[] seen = new boolean[B];
         for(int r = 0; r < R; r++) {
-            for(int c = 0; c < C; c++) {
-                if(runeGrid[r][c] > 0) {
-                    System.out.printf("%4d", runeGrid[r][c]);
-                } else {
-                    System.out.print("   .");
+            for(int c = L; c < L + N; c++) {
+                int beamId = runeGrid[r][c];
+                if(beamId > 0 && !seen[beamId - 1]) {
+                    beamsToClear.add(beamId);
+                    seen[beamId - 1] = true;
                 }
             }
-            System.out.println();
+        }
+
+        if(beamsToClear.isEmpty()) {
+            return "False alarm";
         }
 
         return "Implement solve";
