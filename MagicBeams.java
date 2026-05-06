@@ -23,31 +23,31 @@ class MagicBeams {
 
         for(int i = 0; i < B; i++) {
             Beam b = beams[i];
-            int rPos = b.row();
-            int cPos = b.col();
-            int rStep = 0;
-            int cStep = 0;
+            int rowPos = b.row();
+            int colPos = b.col();
+            int rowStep = 0;
+            int colStep = 0;
 
             switch(b.dir()) {
                 case 'N':
-                    rStep = -1;
+                    rowStep = -1;
                     break;
                 case 'S':
-                    rStep = 1;
+                    rowStep = 1;
                     break;
                 case 'E':
-                    cStep = 1;
+                    colStep = 1;
                     break;
                 case 'W':
-                    cStep = -1;
+                    colStep = -1;
                     break;
             }
 
             for(int j = 0; j < b.len(); j++) {
                 // Beam ids start from 1,...
-                runeGrid[rPos][cPos] = i + 1;
-                rPos += rStep;
-                cPos += cStep; 
+                runeGrid[rowPos][colPos] = i + 1;
+                rowPos += rowStep;
+                colPos += colStep; 
             }
         }
 
