@@ -1,58 +1,46 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 class Main {
-    record Beam(int r, int c, int l, char d) {}
-
-    private static String solve(int R, int C, int N, int L, int B, Beam[] beams) {
-        /*
-            #1 Check which beams intercept the chosen columns
-                #1.1 If no beams intercept out> "False alarm"
-                #1.2 If beams intercept start creating a directed graph of dependencies
-
-                (example)
-                A can only move if B and C move
-                C can move freely
-                B can only move if D and E move
-                D and E can move freely
-
-                In this example, C, D and E would be graph leaves
-
-                #2.1 If any loop gets formed at any point out> "Disaster"
-`		        #2.2 If there are no loops, then remove and output all leaves in order of lowest index until the graph has no more nodes
-        */
-
-        return "Implement solver";
-    }
-
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
   
         // Number of test cases.
-        int T = input.nextInt();
+        int T = Integer.parseInt(in.readLine());
 
         for (int t = 0; t < T; t++) {
             // The number of rows and the number of columns of the rune grid
             // Rows and columns are identified by integers, ranging from 0 to, respectively, R − 1 and C − 1
             // The cell in the upper left corner is in row 0 and column 0.
-            int R = input.nextInt();
-            int C = input.nextInt();
+            String[] rc = in.readLine().split(" ");
+            int R = Integer.parseInt(rc[0]);
+            int C = Integer.parseInt(rc[1]);
 
-            //The stabilising corridor comprises N columns and L is the leftmost (westernmost) chosen column
-            int N = input.nextInt();
-            int L = input.nextInt();
+            // The stabilising corridor comprises N columns and L is the leftmost (westernmost) chosen column
+            String[] nl = in.readLine().split(" ");
+            int N = Integer.parseInt(nl[0]);
+            int L = Integer.parseInt(nl[1]);
 
             // Number of magic beams
-            int B = input.nextInt();
+            int B = Integer.parseInt(in.readLine());
 
-            // Magic beam, identified by i, occupies the cell in row ri and column ci, has length li, starting from (ri, ci), 
+            // Magic beam, identified by i + 1, occupies the cell in row ri and column ci, has length li, starting from (ri, ci), 
             // extends in the direction specified by di and travels in that direction.
             Beam[] beams = new Beam[B];
             for (int i = 0; i < B; i++) {
-                beams[i] = new Beam(input.nextInt(), input.nextInt(), input.nextInt(), input.next().charAt(0));
+                String[] b = in.readLine().split(" ");
+                int r = Integer.parseInt(b[0]);
+                int c = Integer.parseInt(b[1]);
+                int len = Integer.parseInt(b[2]);
+                char dir = b[3].charAt(0);
+                
+                // CAUTION: Remember beamId is i + 1
+                beams[i] = new Beam(r, c, len, dir);
             }
 
-            String output = solve(R, C, N, L, B, beams);
-            System.out.println(output);
+            MagicBeams mb = new MagicBeams(R, C, N, L, B, beams);
+            System.out.println(mb.solve());
         }
     }
 }
