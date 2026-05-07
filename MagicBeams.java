@@ -58,7 +58,7 @@ class MagicBeams {
         int[][] runeGrid = buildRuneGrid();
 
         // List beams that intersect the chosen columns
-        List<Integer> beamsToClear = new ArrayList<>();
+        List<Integer> beamsToClear = new ArrayList<>(B);
         boolean[] seen = new boolean[B];
         for(int r = 0; r < R; r++) {
             for(int c = L; c < L + N; c++) {
